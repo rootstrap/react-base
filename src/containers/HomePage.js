@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoutButton from '../components/session/LogoutButton';
+import LogoutButton from 'components/session/LogoutButton';
 
 const HomePage = () => {
   return (

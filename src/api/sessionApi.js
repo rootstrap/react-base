@@ -1,5 +1,5 @@
 import api from './apiService.js';
-import * as consts from '../constants/apiConstants.js';
+import * as consts from 'constants/apiConstants.js';
 
 class Session {
   static login(user) {

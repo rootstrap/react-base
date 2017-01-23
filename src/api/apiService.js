@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import * as session from '../services/sessionService';
+import * as session from 'services/sessionService';
 import { browserHistory } from 'react-router';
 import humps from 'humps';
 

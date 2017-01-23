@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
-import sessionApi from '../api/sessionApi';
-import * as session from '../services/sessionService';
+import sessionApi from 'api/sessionApi';
+import * as session from 'services/sessionService';
 import { SubmissionError } from 'redux-form';
 
 export const signUpSuccess = () => {

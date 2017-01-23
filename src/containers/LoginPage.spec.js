@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { LoginPage } from './LoginPage';
-import LoginForm from '../components/session/LoginForm';
+import LoginForm from 'components/session/LoginForm';
 
 describe('<LoginPage />', () => {
   it('should contain <LoginForm />', () => {

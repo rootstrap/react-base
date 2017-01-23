@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sessionReducer from './sessionReducer';
-import * as types from '../actions/actionTypes';
+import * as types from 'actions/actionTypes';
 import initialState from './initialState';
 
 describe('Reducer::Session', () => {
