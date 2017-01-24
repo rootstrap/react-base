@@ -1,4 +1,4 @@
-import * as types from '../actions/actionTypes';
+import * as types from 'actions/actionTypes';
 import initialState from './initialState';
 
 const signUpReducer = (state = initialState.signUp, action) => {
