@@ -45,6 +45,7 @@ export default {
     // Generate HTML file that contains references to generated bundles.
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
+      filename: 'pwa.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -72,7 +73,8 @@ export default {
     }),
 
     new GenerateSW({
-      swDest: '../public/main-sw.js'
+      swDest: '../public/main-sw.js',
+      navigateFallback: 'pwa.html'
     })
   ],
   module: {
