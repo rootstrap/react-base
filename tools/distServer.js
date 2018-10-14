@@ -12,10 +12,10 @@ const port = 8000;
 const app = express();
 
 app.use(historyApiFallback());
-app.get(/\.js$|\.css$/, (req, res, next) => {
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
+// app.get(/\.js$|\.css$/, (req, res, next) => {
+//   res.set('Content-Encoding', 'gzip');
+//   next();
+// });
 
 app.use(express.static(__dirname + '/../dist'));
 app.get('*', function response(req, res) {

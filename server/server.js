@@ -23,12 +23,12 @@ const assets = require('./build/assets.json'); // eslint-disable-line import/no-
 
 const server = express();
 
-const cacheTime = 31536000;
+// const cacheTime = 31536000;
 
 server
   .disable('x-powered-by')
   .use(compress())
-  .use(express.static('server/build/public', { maxAge: cacheTime }))
+  .use(express.static('server/build/public'))
   .get('*', async (req, res) => {
     try {
       const store = configureStore();
