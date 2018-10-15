@@ -17,9 +17,12 @@ import 'styles/styles.scss';
 
 require('../src/favicon.ico'); // Tell webpack to load favicon.ico
 
-window.addEventListener('load', () => {
-  navigator.serviceWorker.register('/main-sw.js');
-});
+// Load service worker
+if (process.env.ENABLE_PWA) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/main-sw.js');
+  });
+}
 
 // Fix for browsers that don't implement Intl by default e.g.: Safari)
 if (!window.Intl) {

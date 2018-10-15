@@ -17,7 +17,7 @@ import 'styles/styles.scss';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 
 // Load service worker
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENABLE_PWA) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/main-sw.js');
   });
