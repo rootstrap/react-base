@@ -2,53 +2,81 @@ import fetch from 'isomorphic-fetch';
 import { sessionService } from 'redux-react-session';
 import humps from 'humps';
 
-const saveSessionHeaders = (headers) => {
-  if (headers.get('access-token')) {
-    const sessionHeaders = {
-      token: headers.get('access-token'),
-      uid: headers.get('uid'),
-      client: headers.get('client')
-    };
-    sessionService.saveSession(sessionHeaders);
-  }
-};
+import getResponseBody from 'api/utils/getResponseBody';
+import handleErrors from 'api/utils/handleErrors';
 
-const handleErrors = response =>
-  new Promise((resolve, reject) => {
-    if (!response) {
-      reject(new Error({ message: 'No response returned from fetch' }));
-      return;
-    }
+const ACCESS_TOKEN = 'access-token';
+const APPLICATION_JSON = 'application/json';
+const CONTENT_TYPE = 'Content-Type';
 
-    saveSessionHeaders(response.headers);
-    if (response.ok) {
-      resolve(response);
-      return;
-    }
-    if (response.status === 401) {
-      sessionService.loadSession().then(() => {
-        sessionService.deleteSession();
-        sessionService.deleteUser();
-      }).catch(() => {});
-    }
-
-    response.json()
-      .then((json) => {
-        const error = json || { message: response.statusText };
-        reject(error);
-      }).catch(() => reject(new Error({ message: 'Response not JSON' })));
-  });
-
-const getResponseBody = (response) => {
-  const bodyIsEmpty = response.status === 204;
-  if (bodyIsEmpty) {
-    return Promise.resolve();
-  }
-  return response.json();
+const HTTP_VERB = {
+  GET: 'get',
+  POST: 'post',
+  DELETE: 'delete',
+  PUT: 'put',
+  PATCH: 'patch',
 };
 
 class Api {
-  performRequest(uri, apiUrl, requestData = {}) {
+  static async get(uri, apiUrl = process.env.API_URL) {
+    const requestData = Api.buildRequest(HTTP_VERB.GET);
+    const data = await this.addSessionHeaders(requestData);
+    return this.performRequest(uri, apiUrl, data);
+  }
+
+  static async post(uri, body, apiUrl = process.env.API_URL) {
+    const requestData = Api.buildRequest(HTTP_VERB.POST, body);
+    const data = await this.addSessionHeaders(requestData);
+    return this.performRequest(uri, apiUrl, data);
+  }
+
+  static async delete(uri, body, apiUrl = process.env.API_URL) {
+    const requestData = Api.buildRequest(HTTP_VERB.DELETE, body);
+    const data = await this.addSessionHeaders(requestData);
+    return this.performRequest(uri, apiUrl, data);
+  }
+
+  static async put(uri, body, apiUrl = process.env.API_URL) {
+    const requestData = Api.buildRequest(HTTP_VERB.PUT, body);
+    const data = await this.addSessionHeaders(requestData);
+    return this.performRequest(uri, apiUrl, data);
+  }
+
+  static async patch(uri, body, apiUrl = process.env.API_URL) {
+    const requestData = Api.buildRequest(HTTP_VERB.PATCH, body);
+    const data = await this.addSessionHeaders(requestData);
+    return this.performRequest(uri, apiUrl, data);
+  }
+
+  static buildRequest(httpVerb, body = undefined) {
+    return {
+      method: httpVerb,
+      headers: {
+        accept: APPLICATION_JSON,
+        [CONTENT_TYPE]: APPLICATION_JSON,
+      },
+      ...(body && { body: JSON.stringify(humps.decamelizeKeys(body)) }),
+    };
+  }
+
+  static async addSessionHeaders(data) {
+    const requestData = { ...data };
+    try {
+      await sessionService.refreshFromLocalStorage();
+      const headers = await Api.getTokenHeader();
+      requestData.headers = { ...requestData.headers, ...headers };
+      return requestData;
+    } catch (err) {
+      return requestData;
+    }
+  }
+
+  static async getTokenHeader() {
+    const { token, client, uid } = await sessionService.loadSession();
+    return { [ACCESS_TOKEN]: token, client, uid };
+  }
+
+  static performRequest(uri, apiUrl, requestData = {}) {
     const url = `${apiUrl}${uri}`;
     return new Promise((resolve, reject) => {
       fetch(url, requestData)
@@ -58,86 +86,6 @@ class Api {
         .catch(error => reject(humps.camelizeKeys(error)));
     });
   }
-
-  addTokenHeader(requestData) {
-    return sessionService.refreshFromLocalStorage().then(() =>
-      sessionService.loadSession()
-        .then((session) => {
-          const { token, client, uid } = session;
-          requestData.headers['access-token'] = token;
-          requestData.headers.client = client;
-          requestData.headers.uid = uid;
-          return requestData;
-        })).catch(() => requestData);
-  }
-
-  get(uri, apiUrl = process.env.API_URL) {
-    const requestData = {
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    };
-    return this.addTokenHeader(requestData)
-      .then(data => this.performRequest(uri, apiUrl, data));
-  }
-
-  post(uri, data, apiUrl = process.env.API_URL) {
-    const decamelizeData = humps.decamelizeKeys(data);
-    const requestData = {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(decamelizeData)
-    };
-    return this.addTokenHeader(requestData)
-      .then(data => this.performRequest(uri, apiUrl, data));
-  }
-
-  delete(uri, data, apiUrl = process.env.API_URL) {
-    const decamelizeData = humps.decamelizeKeys(data);
-    const requestData = {
-      method: 'delete',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(decamelizeData)
-    };
-    return this.addTokenHeader(requestData)
-      .then(data => this.performRequest(uri, apiUrl, data));
-  }
-
-  put(uri, data, apiUrl = process.env.API_URL) {
-    const decamelizeData = humps.decamelizeKeys(data);
-    const requestData = {
-      method: 'put',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(decamelizeData)
-    };
-    return this.addTokenHeader(requestData)
-      .then(data => this.performRequest(uri, apiUrl, data));
-  }
-
-  patch(uri, data, apiUrl = process.env.API_URL) {
-    const decamelizeData = humps.decamelizeKeys(data);
-    const requestData = {
-      method: 'patch',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(decamelizeData)
-    };
-    return this.addTokenHeader(requestData)
-      .then(data => this.performRequest(uri, apiUrl, data));
-  }
 }
 
-export default new Api();
+export default Api;
