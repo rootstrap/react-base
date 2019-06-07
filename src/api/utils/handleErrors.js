@@ -1,33 +1,29 @@
 import { sessionService } from 'redux-react-session';
 import saveSessionHeaders from './saveSessionHeaders';
 
-export default response =>
-  new Promise((resolve, reject) => {
-    if (!response) {
-      reject(new Error({ message: 'No response returned from fetch' }));
-      return;
-    }
+export default async (response) => {
+  if (!response) {
+    throw new Error({ message: 'No response returned from fetch' });
+  }
 
-    saveSessionHeaders(response.headers);
+  await saveSessionHeaders(response.headers);
 
-    if (response.ok) {
-      resolve(response);
-      return;
-    }
+  if (response.ok) {
+    return response;
+  }
 
-    if (response.status === 401) {
-      sessionService.loadSession()
+  if (response.status === 401) {
+    try {
+      await sessionService.loadSession()
         .then(() => {
           sessionService.deleteSession();
           sessionService.deleteUser();
-        })
-        .catch(() => {});
+        });
+    } catch (e) {
     }
+  }
 
-    response.json()
-      .then((json) => {
-        const error = json || { message: response.statusText };
-        reject(error);
-      })
-      .catch(() => reject(new Error({ message: 'Response not JSON' })));
-  });
+  throw await response.json()
+    .then(json => json || new Error(response.statusText))
+    .catch(() => new Error('Response not JSON'));
+};
