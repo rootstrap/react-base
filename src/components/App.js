@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { bool } from 'prop-types';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
