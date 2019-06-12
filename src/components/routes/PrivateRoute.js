@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, bool, string, func } from 'prop-types';
+import { object, bool, string } from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 import routes from 'constants/routesPaths';

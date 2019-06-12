@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
-import { bool, func } from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,7 +7,10 @@ import { signUp } from 'actions/userActions';
 import SignUpForm from 'components/user/SignUpForm';
 import routes from 'constants/routesPaths';
 
-const SignUpPage = ({ signUp, authenticated }) => {
+const SignUpPage = () => {
+  const authenticated = useSelector(state => state.session.authenticated);
+  const dispatch = useDispatch();
+
   if (authenticated) {
     return <Redirect to={routes.index} />;
   }
@@ -16,7 +18,7 @@ const SignUpPage = ({ signUp, authenticated }) => {
   return (
     <div>
       <p><FormattedMessage id="signup.title" /></p>
-      <SignUpForm onSubmit={signUp} />
+      <SignUpForm onSubmit={user => dispatch(signUp(user))} />
       <Link to={routes.login}>
         <FormattedMessage id="signup.signin" />
       </Link>
@@ -24,17 +26,4 @@ const SignUpPage = ({ signUp, authenticated }) => {
   );
 };
 
-SignUpPage.propTypes = {
-  signUp: func.isRequired,
-  authenticated: bool.isRequired
-};
-
-const mapState = state => ({
-  authenticated: state.session.authenticated
-});
-
-const mapDispatch = dispatch => ({
-  signUp: user => dispatch(signUp(user))
-});
-
-export default connect(mapState, mapDispatch)(memo(SignUpPage));
+export default memo(SignUpPage);
