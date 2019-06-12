@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -11,6 +11,10 @@ import routes from 'constants/routesPaths';
 const LoginPage = () => {
   const { authenticated } = useSession();
   const dispatch = useDispatch();
+  const loginRequest = useCallback(
+    user => dispatch(login(user)),
+    [dispatch]
+  );
 
   if (authenticated) {
     return <Redirect to={routes.index} />;
@@ -19,7 +23,7 @@ const LoginPage = () => {
   return (
     <div>
       <p><FormattedMessage id="login.title" /></p>
-      <LoginForm onSubmit={user => dispatch(login(user))} />
+      <LoginForm onSubmit={loginRequest} />
       <Link to={routes.signUp}>
         <FormattedMessage id="login.signup" />
       </Link>
