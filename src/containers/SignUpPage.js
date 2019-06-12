@@ -1,14 +1,15 @@
 import React, { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
+import useSession from 'hooks/useSession';
 import { signUp } from 'actions/userActions';
 import SignUpForm from 'components/user/SignUpForm';
 import routes from 'constants/routesPaths';
 
 const SignUpPage = () => {
-  const authenticated = useSelector(state => state.session.authenticated);
+  const { authenticated } = useSession();
   const dispatch = useDispatch();
 
   if (authenticated) {
