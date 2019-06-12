@@ -58,7 +58,7 @@
     "react-loaders": "3.0.1",
     "react-redux": "7.1.0",
     "react-router-config": "1.0.0-beta.4",
-    "react-router-dom": "4.3.1",
+    "react-router-dom": "5.0.1",
     "redux": "4.0.0",
     "redux-form": "8.2.3",
     "redux-logger": "3.0.6",
