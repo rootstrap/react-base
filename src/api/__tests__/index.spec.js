@@ -103,7 +103,7 @@ describe('ApiService', () => {
           { headers: { 'Content-Type': 'application/json' } },
         );
       });
-    })
+    });
   });
 
   describe('getTokenHeader', () => {
