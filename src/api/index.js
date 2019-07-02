@@ -2,8 +2,8 @@ import fetch from 'isomorphic-fetch';
 import { sessionService } from 'redux-react-session';
 import humps from 'humps';
 
-import getResponseBody from 'api/utils/getResponseBody';
 import handleErrors from 'api/utils/handleErrors';
+import getResponseBody from 'api/utils/getResponseBody';
 
 const ACCESS_TOKEN = 'access-token';
 const APPLICATION_JSON = 'application/json';
@@ -20,32 +20,27 @@ const HTTP_VERB = {
 class Api {
   static async get(uri, apiUrl = process.env.API_URL) {
     const requestData = Api.buildRequest(HTTP_VERB.GET);
-    const data = await this.addSessionHeaders(requestData);
-    return this.performRequest(uri, apiUrl, data);
+    return Api.loadHeadersAndPerformRequest(uri, apiUrl, requestData);
   }
 
   static async post(uri, body, apiUrl = process.env.API_URL) {
     const requestData = Api.buildRequest(HTTP_VERB.POST, body);
-    const data = await this.addSessionHeaders(requestData);
-    return this.performRequest(uri, apiUrl, data);
+    return Api.loadHeadersAndPerformRequest(uri, apiUrl, requestData);
   }
 
   static async delete(uri, body, apiUrl = process.env.API_URL) {
     const requestData = Api.buildRequest(HTTP_VERB.DELETE, body);
-    const data = await this.addSessionHeaders(requestData);
-    return this.performRequest(uri, apiUrl, data);
+    return Api.loadHeadersAndPerformRequest(uri, apiUrl, requestData);
   }
 
   static async put(uri, body, apiUrl = process.env.API_URL) {
     const requestData = Api.buildRequest(HTTP_VERB.PUT, body);
-    const data = await this.addSessionHeaders(requestData);
-    return this.performRequest(uri, apiUrl, data);
+    return Api.loadHeadersAndPerformRequest(uri, apiUrl, requestData);
   }
 
   static async patch(uri, body, apiUrl = process.env.API_URL) {
     const requestData = Api.buildRequest(HTTP_VERB.PATCH, body);
-    const data = await this.addSessionHeaders(requestData);
-    return this.performRequest(uri, apiUrl, data);
+    return Api.loadHeadersAndPerformRequest(uri, apiUrl, requestData);
   }
 
   static buildRequest(httpVerb, body) {
@@ -59,15 +54,15 @@ class Api {
     };
   }
 
-  static async addSessionHeaders(data) {
+  static async loadHeadersAndPerformRequest(uri, apiUrl, data) {
     const requestData = { ...data };
     try {
       await sessionService.refreshFromLocalStorage();
       const headers = await Api.getTokenHeader();
       requestData.headers = { ...requestData.headers, ...headers };
-      return requestData;
+      return Api.performRequest(uri, apiUrl, requestData);
     } catch (err) {
-      return requestData;
+      return Api.performRequest(uri, apiUrl, requestData);
     }
   }
 

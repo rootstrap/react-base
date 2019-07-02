@@ -1,4 +1,5 @@
 import { sessionService } from 'redux-react-session';
+import parseError from './parseError';
 import saveSessionHeaders from './saveSessionHeaders';
 
 export default async (response) => {
@@ -14,16 +15,12 @@ export default async (response) => {
 
   if (response.status === 401) {
     try {
-      await sessionService.loadSession()
-        .then(() => {
-          sessionService.deleteSession();
-          sessionService.deleteUser();
-        });
+      await sessionService.loadSession();
+      sessionService.deleteSession();
+      sessionService.deleteUser();
     } catch (e) {
     }
   }
 
-  throw await response.json()
-    .then(json => json || new Error(response.statusText))
-    .catch(() => new Error('Response not JSON'));
+  throw await parseError(response);
 };
