@@ -53,7 +53,7 @@ plugins:
   eslint:
     enabled: true
     config:
-      config: ~/.eslintrc
+      config: .eslintrc
 exclude_patterns:
   - "dist/"
   - "server/build/"
