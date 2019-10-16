@@ -1,7 +1,6 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import { sessionService } from 'redux-react-session';
 import { AppContainer } from 'react-hot-loader';
 import { IntlProvider } from 'react-intl';
 import includes from 'lodash/includes';
@@ -48,8 +47,6 @@ const preloadedState = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
 
 const store = configureStore(preloadedState);
-
-sessionService.initSessionService(store, { driver: 'COOKIES' });
 
 const renderApp = Component => {
   hydrate(

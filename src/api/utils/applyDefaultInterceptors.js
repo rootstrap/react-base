@@ -1,20 +1,19 @@
-import { sessionService } from 'redux-react-session';
-import saveSessionHeaders from './saveSessionHeaders';
+import { saveSession, logout } from 'actions/userActions';
 
 const ACCESS_TOKEN = 'access-token';
 
 const UNAUTHORIZED = 401;
 
-const defaultRequestInterceptors = [
+const defaultRequestInterceptors = store => [
   async request => {
     try {
-      const { token, client, uid } = await sessionService.loadSession();
-      request.headers = {
-        ...request.headers,
-        [ACCESS_TOKEN]: token,
-        client,
-        uid
-      };
+      const { token } = store.getState().session;
+      if (token) {
+        request.headers = {
+          ...request.headers,
+          [ACCESS_TOKEN]: token
+        };
+      }
     } catch (error) {
       console.log('Failed to load session headers', error); // eslint-disable-line
     }
@@ -22,24 +21,28 @@ const defaultRequestInterceptors = [
   }
 ];
 
-const defaultResponseInterceptors = [
+const defaultResponseInterceptors = store => [
   async response => {
     if (response.ok) {
-      await saveSessionHeaders(response.headers);
+      const { headers } = response;
+      const token = headers.get(ACCESS_TOKEN);
+      if (token) {
+        store.dispatch(saveSession({ token }));
+      }
     }
     if (response.status === UNAUTHORIZED) {
-      await sessionService.deleteSession();
+      store.dispatch(logout());
     }
     return response;
   }
 ];
 
-export default apiService => {
-  defaultRequestInterceptors.forEach(interceptor =>
+export default (store, apiService) => {
+  defaultRequestInterceptors(store).forEach(interceptor =>
     apiService.requestInterceptors.use(interceptor)
   );
 
-  defaultResponseInterceptors.forEach(interceptor =>
+  defaultResponseInterceptors(store).forEach(interceptor =>
     apiService.responseInterceptors.use(interceptor)
   );
 };

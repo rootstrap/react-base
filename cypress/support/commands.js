@@ -16,7 +16,7 @@ import user from 'fixtures/fakeUser';
 import realUser from 'fixtures/realUser';
 import { SUCCESS_CASE } from 'cypressConstants';
 
-const storage = localForage.createInstance({ name: 'redux-react-session' });
+const storage = localForage.createInstance({ name: 'redux-persist' });
 
 // Cypress image snapshot
 addMatchImageSnapshotCommand({
@@ -47,7 +47,7 @@ Cypress.Commands.add('loginUser', () => {
 });
 
 Cypress.Commands.add('removeSession', () => {
-  window.indexedDB.deleteDatabase('redux-react-session');
+  window.indexedDB.deleteDatabase('redux-react-persist');
 });
 
 Cypress.Commands.add('loginUser', () => {
