@@ -10,7 +10,7 @@ import session from './sessionReducer';
 const sessionPersistConfig = {
   key: 'session',
   storage: localForage,
-  whitelist: ['authenticated', 'token', 'user'],
+  whitelist: ['authenticated', 'info', 'user'],
   stateReconciler: autoMergeLevel2
 };
 

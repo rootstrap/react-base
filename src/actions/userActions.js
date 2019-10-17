@@ -15,7 +15,7 @@ export const login = user => async dispatch => {
     const {
       data: { user: createdUser }
     } = await userService.login({ user });
-    dispatch(saveUser({ user: createdUser }));
+    dispatch(saveUser(createdUser));
   } catch (err) {
     throw new SubmissionError({
       _error: err.data.error

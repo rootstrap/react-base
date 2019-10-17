@@ -1,17 +1,22 @@
 import { saveSession, logout } from 'actions/userActions';
 
 const ACCESS_TOKEN = 'access-token';
+const UID = 'uid';
+const CLIENT = 'client';
 
 const UNAUTHORIZED = 401;
 
 const defaultRequestInterceptors = store => [
   async request => {
     try {
-      const { token } = store.getState().session;
-      if (token) {
+      const { info } = store.getState().session;
+      if (info) {
+        const { token, client, uid } = info;
         request.headers = {
           ...request.headers,
-          [ACCESS_TOKEN]: token
+          [ACCESS_TOKEN]: token,
+          client,
+          uid
         };
       }
     } catch (error) {
@@ -27,7 +32,12 @@ const defaultResponseInterceptors = store => [
       const { headers } = response;
       const token = headers.get(ACCESS_TOKEN);
       if (token) {
-        store.dispatch(saveSession({ token }));
+        const session = {
+          token,
+          uid: headers.get(UID),
+          client: headers.get(CLIENT)
+        };
+        store.dispatch(saveSession(session));
       }
     }
     if (response.status === UNAUTHORIZED) {

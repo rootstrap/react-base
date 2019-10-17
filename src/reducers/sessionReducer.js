@@ -2,19 +2,19 @@ import * as types from 'actions/actionTypes';
 import createReducer from './createReducer';
 
 const initialState = {
-  token: undefined,
   authenticated: false,
-  user: null
+  user: null,
+  info: {}
 };
 
 const actionHandlers = {
-  [types.SAVE_SESSION]: (state, { token }) => {
-    state.token = token;
+  [types.SAVE_SESSION]: (state, { payload }) => {
+    state.info = payload;
     state.authenticated = true;
   },
 
-  [types.SAVE_USER]: (state, { user }) => {
-    state.user = user;
+  [types.SAVE_USER]: (state, { payload }) => {
+    state.user = payload;
   },
 
   [types.REMOVE_DATA]: () => initialState
