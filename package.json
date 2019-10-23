@@ -13,7 +13,7 @@
     "start": "npm-run-all --parallel open:src lint",
     "start:server": "node server/build/server.js",
     "ssr": "npm run clean-ssr && npm run build:client && npm run build:server && npm run start:server",
-    "heroku-postbuild": "npm-run-all build:*",
+    "heroku-postbuild": "npm run build:client && npm run build:server",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint:code": "eslint webpack/webpack.config.* src server --color",
