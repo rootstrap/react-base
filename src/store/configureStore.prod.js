@@ -6,7 +6,7 @@ import { persistStore } from 'redux-persist';
 import rootReducer from 'reducers';
 import history from 'utils/history';
 
-export default function configureStore(initialState) {
+export default function configureStore(initialState, isServerSide = false) {
   const middlewares = [thunkMiddleware, routerMiddleware(history)];
 
   const store = createStore(
@@ -14,6 +14,10 @@ export default function configureStore(initialState) {
     initialState,
     compose(applyMiddleware(...middlewares))
   );
+
+  if (isServerSide) {
+    return { store };
+  }
 
   const persistor = persistStore(store);
 

@@ -40,7 +40,7 @@ server
   )
   .get('*', async (req, res) => {
     try {
-      const store = configureStore();
+      const { store } = configureStore(undefined, true);
       const context = {};
 
       // Fetch data promises
