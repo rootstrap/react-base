@@ -35,10 +35,7 @@ export const login = user => async dispatch => {
     } = await userService.login({ user });
     dispatch(loginSuccess(createdUser));
   } catch (err) {
-    dispatch(loginError());
-    throw new SubmissionError({
-      _error: err.data.error
-    });
+    dispatch(loginError(err.data.error));
   }
 };
 

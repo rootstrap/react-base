@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import { NOT_STARTED, LOADING, SUCCESS, ERROR } from 'constants/status';
 
 const handleAction = (state, action) => {
-  const { type, error } = action;
+  const { type, payload } = action;
 
   const matchesStart = /(.*)_(REQUEST)/.exec(type);
   const matchesError = /(.*)_(ERROR)/.exec(type);
@@ -30,7 +30,7 @@ const handleAction = (state, action) => {
     status = SUCCESS;
   }
 
-  if (key) state[key] = { status, error };
+  if (key) state[key] = { status, error: payload };
 
   return state;
 };
