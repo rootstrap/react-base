@@ -4,10 +4,10 @@ import { NOT_STARTED, LOADING, SUCCESS, ERROR } from 'constants/status';
 const handleAction = (state, action) => {
   const { type, payload } = action;
 
-  const matchesStart = /(.*)_(REQUEST)/.exec(type);
-  const matchesError = /(.*)_(ERROR)/.exec(type);
-  const matchesReset = /(.*)_(RESET)/.exec(type);
-  const matchesSuccess = /(.*)_(SUCCESS)/.exec(type);
+  const matchesStart = /(.*)_REQUEST/.exec(type);
+  const matchesError = /(.*)_ERROR/.exec(type);
+  const matchesReset = /(.*)_RESET/.exec(type);
+  const matchesSuccess = /(.*)_SUCCESS/.exec(type);
 
   let status = NOT_STARTED;
   let key = null;
