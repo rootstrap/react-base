@@ -6,8 +6,7 @@ import { useIntl, defineMessages, FormattedMessage } from 'react-intl';
 import Loading from 'components/common/Loading';
 import Input from 'components/common/Input';
 import { validations, signUp } from 'utils/constraints';
-import { LOADING } from 'constants/status';
-import { useStatus } from 'hooks';
+import { useLoading } from 'hooks';
 import { SIGNUP } from 'actions/actionTypes';
 
 const messages = defineMessages({
@@ -18,7 +17,7 @@ const messages = defineMessages({
 
 export const SignUpForm = ({ handleSubmit }) => {
   const intl = useIntl();
-  const { status } = useStatus(SIGNUP);
+  const loading = useLoading(SIGNUP);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -49,7 +48,7 @@ export const SignUpForm = ({ handleSubmit }) => {
       <button type="submit">
         <FormattedMessage id="login.form.submit" />
       </button>
-      {status === LOADING && <Loading />}
+      {loading && <Loading />}
     </form>
   );
 };
