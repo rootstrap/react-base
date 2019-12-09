@@ -1,5 +1,3 @@
-import React from 'react';
-
 import routesPaths from 'constants/routesPaths';
 import HomePage from 'pages/HomePage';
 import LoginPage from 'pages/LoginPage';
@@ -9,20 +7,20 @@ import NotFoundPage from 'pages/NotFoundPage';
 const routes = [
   {
     path: routesPaths.index,
-    component: <HomePage />,
+    component: HomePage,
     exact: true,
-    private: true
+    needsAuth: true
   },
   {
     path: routesPaths.login,
-    component: <LoginPage />
+    component: LoginPage
   },
   {
     path: routesPaths.signUp,
-    component: <SignUpPage />
+    component: SignUpPage
   },
   {
-    component: <NotFoundPage />
+    component: NotFoundPage
   }
 ];
 

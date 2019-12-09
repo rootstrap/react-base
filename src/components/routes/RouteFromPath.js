@@ -1,18 +1,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { node } from 'prop-types';
+import { elementType, bool } from 'prop-types';
 
 import PrivateRoute from './PrivateRoute';
 
-const RouteFromPath = ({ component, ...route }) =>
-  route.private ? (
-    <PrivateRoute {...route}>{component}</PrivateRoute>
-  ) : (
-    <Route {...route}>{component}</Route>
-  );
+const RouteFromPath = ({ needsAuth, ...route }) =>
+  needsAuth ? <PrivateRoute {...route} /> : <Route {...route} />;
 
 RouteFromPath.propTypes = {
-  component: node.isRequired
+  component: elementType.isRequired,
+  needsAuth: bool
 };
 
 export default RouteFromPath;

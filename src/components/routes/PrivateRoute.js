@@ -1,16 +1,14 @@
 import React from 'react';
-import { bool, string, node } from 'prop-types';
+import { bool, string, elementType } from 'prop-types';
 import { Route, Redirect, useLocation } from 'react-router-dom';
 
 import routes from 'constants/routesPaths';
 
-const PrivateRoute = ({ children, exact = false, path, authenticated }) => {
+const PrivateRoute = ({ authenticated, ...route }) => {
   const location = useLocation();
 
   return authenticated ? (
-    <Route exact={exact} path={path}>
-      {children}
-    </Route>
+    <Route {...route} />
   ) : (
     <Redirect
       to={{
@@ -22,7 +20,7 @@ const PrivateRoute = ({ children, exact = false, path, authenticated }) => {
 };
 
 PrivateRoute.propTypes = {
-  children: node.isRequired,
+  component: elementType.isRequired,
   path: string.isRequired,
   authenticated: bool.isRequired,
   exact: bool
