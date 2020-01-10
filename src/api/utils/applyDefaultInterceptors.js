@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { updateSession, logout } from 'actions/userActions';
 
 const ACCESS_TOKEN = 'access-token';
