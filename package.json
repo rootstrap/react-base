@@ -34,7 +34,7 @@
     "test:spec": "cypress run --spec",
     "rm:coverage": "rm -rf coverage || true",
     "check:coverage": "nyc report --reporter=text-summary --reporter=lcov --check-coverage",
-    "jest": "jest",
+    "jest": "jest --passWithNoTests",
     "jest:cover": "yarn jest -- --coverage",
     "jest:watch": "yarn jest -- --watch",
     "deploy": "yarn build && babel-node tools/deployS3",
