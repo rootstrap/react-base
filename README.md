@@ -6,6 +6,20 @@
 [![Dependency Status](https://img.shields.io/david/rootstrap/react-redux-base.svg)](https://david-dm.org/rootstrap/react-redux-base)
 [![License](https://img.shields.io/github/license/rootstrap/react-redux-base.svg)](https://github.com/rootstrap/react-redux-base/blob/master/LICENSE.md)
 
+## Development environment
+
+### Build the image
+```
+docker-compose build
+```
+## Open a console on the container
+```
+docker-compose run \
+  -p 8000:8000 \
+  -v $(pwd)/src:/source_code/src \
+  -v $(pwd)/cypress:/source_code/cypress \
+  frontend /bin/bash
+```
 
 ## Commands
 1. **Run the app**. `yarn start` or `npm start`

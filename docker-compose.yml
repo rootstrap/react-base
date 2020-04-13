@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      .
+    container_name: node-frontend
+    working_dir: /source_code
