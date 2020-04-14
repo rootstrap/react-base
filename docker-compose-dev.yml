@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    container_name: node-frontend
+    working_dir: /usr/src/app
+    volumes:
+      - node_modules:/usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+volumes:
+  node_modules: {}
