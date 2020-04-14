@@ -10,16 +10,18 @@
 
 ### Build the image
 ```
-docker-compose build
+docker-compose -f docker-compose-dev.yml build
 ```
-## Open a console on the container
+### Open a console on the container
 ```
-docker-compose run \
+docker-compose -f docker-compose-dev.yml run \
   -p 8000:8000 \
-  -v $(pwd)/src:/source_code/src \
-  -v $(pwd)/cypress:/source_code/cypress \
+  -v $(pwd):/usr/src/app \
   frontend /bin/bash
 ```
+
+You are now in the docker container console, you can evaluate the commands below
+as usual.
 
 ## Commands
 1. **Run the app**. `yarn start` or `npm start`
