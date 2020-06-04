@@ -91,6 +91,7 @@ The server is prepared to fetch data directly from the backend before rendering 
 | [Redux Persist](https://github.com/rt2zz/redux-persist) | Persist and rehydrate your redux store |
 | [Immer](https://github.com/immerjs/immer) | Allows you to work with immutable state in a more convenient way. |
 | [React Intl](https://github.com/yahoo/react-intl/) | Localization for language support. |
+| [Rootstrap UI](https://github.com/yahoo/react-intl/) | Rootstrap UI is the components & styles library to build user interfaces |
 
 ## License
 
