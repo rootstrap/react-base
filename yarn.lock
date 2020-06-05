@@ -11091,6 +11091,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rootstrap-ui@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/rootstrap-ui/-/rootstrap-ui-0.0.2.tgz#b83c7d3d22bc98fcd3bc4e46225f205ac4528afc"
+  integrity sha512-opnu9nIxAg+dp5fSDuwOELdPF3RdQ1JelGJNhs5YgN7xRgYiUmH985VN+cItD/t+kIdAdStyeyOgPo9IHvCLWA==
+
 rst-selector-parser@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/rst-selector-parser/-/rst-selector-parser-2.2.3.tgz#81b230ea2fcc6066c89e3472de794285d9b03d91"
