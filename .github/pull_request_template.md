@@ -25,6 +25,6 @@
 - [ ] Tested on Safari browser
 - [ ] Design reviewed with design team
 
-#### Notes:
+## Notes:
 <!--- Any other relevant information --->
 
