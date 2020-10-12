@@ -19,13 +19,8 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo PR preview triggered!'
         if: steps.pr-comment-check.outputs.triggered == 'true'
-
-  pr-comment:
-    runs-on: ubuntu-latest
-    needs: pr-trigger
-    if: ${{ success() && needs.pr-trigger.outputs.triggered == 'true' }}
-    steps:
       - uses: actions/github-script@v3
+        if: steps.pr-comment-check.outputs.triggered == 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -35,3 +30,14 @@ jobs:
               repo: context.repo.repo,
               body: 'Your preview link is being generated⏳'
             })
+      - uses: actions/checkout@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Build static site
+        run: yarn install && yarn build
+      - name: Create S3 bucket
+        run: aws s3 create-bucket --bucket my-bucket --region us-east-1
