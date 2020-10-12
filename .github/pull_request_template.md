@@ -1,8 +1,8 @@
 <!--- This is an example of a PR template. You can adjust it to your project's needs. --->
 
-### [Type]: [Title of the card]
-
 <!---
+  PR Title suggestion - [Type]: [Title of the card]
+
   Types:
     feat: (new feature for the user, not a new feature for build script)
     fix: (bug fix for the user, not a fix to a build script)
