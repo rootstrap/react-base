@@ -1,0 +1,99 @@
+name: PR-Preview-Generator
+
+on:
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  pr-trigger:
+    runs-on: ubuntu-latest
+    outputs:
+      triggered: ${{ steps.pr-comment-check.outputs.triggered }}
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: pr-comment-check
+        with:
+          trigger: '/preview'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: pr-trigger
+    if: needs.pr-trigger.outputs.triggered == 'true'
+    steps:
+      - run: 'echo PR preview triggered!'
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Your preview link is being generated⏳'
+            })
+      - name: Setup node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.18.2'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Get branch name
+        uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate AWS bucket name
+        uses: bluwy/substitute-string-action@v1
+        id: bucket_name
+        with:
+          _input-text: '${{ github.event.repository.name }}-${{ steps.comment-branch.outputs.head_ref }}'
+          /: x
+          _: x
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Cache Node Modules
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Build static site
+        run: |
+          touch .env.prod
+          echo API_URL =${{ secrets.API_URL_PREVIEW }} >> .env.prod
+          yarn babel-node tools/build.js
+      - name: Create S3 bucket
+        run: aws s3 mb s3://${{ steps.bucket_name.outputs.result }}
+      - name: Sync S3 bucket
+        if: ${{ failure() || success() }}
+        run: aws s3 sync ./dist/ s3://${{ steps.bucket_name.outputs.result }}
+      - name: Config public access to the bucket
+        run: aws s3api put-public-access-block --bucket ${{ steps.bucket_name.outputs.result }} --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+      - name: Config Bucket index/error
+        run: aws s3 website s3://${{ steps.bucket_name.outputs.result }} --index-document index.html --error-document index.html
+      - name: Add bucket policy
+        run: aws s3api put-bucket-policy --bucket ${{ steps.bucket_name.outputs.result }} --policy '{"Version":"2012-10-17","Statement":[{"Sid":"PublicReadGetObject","Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::${{ steps.bucket_name.outputs.result }}/*"}]}'
+      - uses: actions/github-script@v3
+        if: ${{ failure() || success() }}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Your preview link is http://${{ steps.bucket_name.outputs.result }}.s3-website-us-west-2.amazonaws.com 📬'
+            })
