@@ -2,7 +2,7 @@ name: PR-Preview-Generator
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [edited, synchronize]
 
 jobs:
   deploy:
@@ -47,16 +47,8 @@ jobs:
           touch .env.prod
           echo API_URL =${{ secrets.API_URL_PREVIEW }} >> .env.prod
           yarn babel-node tools/build.js
-      - name: Create S3 bucket
-        run: aws s3 mb s3://${{ steps.bucket_name.outputs.result }}
       - name: Sync S3 bucket
         run: aws s3 sync ./dist/ s3://${{ steps.bucket_name.outputs.result }}
-      - name: Config public access to the bucket
-        run: aws s3api put-public-access-block --bucket ${{ steps.bucket_name.outputs.result }} --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
-      - name: Config Bucket index/error
-        run: aws s3 website s3://${{ steps.bucket_name.outputs.result }} --index-document index.html --error-document index.html
-      - name: Add bucket policy
-        run: aws s3api put-bucket-policy --bucket ${{ steps.bucket_name.outputs.result }} --policy '{"Version":"2012-10-17","Statement":[{"Sid":"PublicReadGetObject","Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::${{ steps.bucket_name.outputs.result }}/*"}]}'
       - name: Set success deployment status
         if: success()
         uses: pbrandone/create-status-action@master

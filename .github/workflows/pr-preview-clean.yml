@@ -23,7 +23,7 @@ jobs:
         uses: bluwy/substitute-string-action@v1
         id: bucket_name
         with:
-          _input-text: '${{ github.event.repository.name }}-${{ steps.comment-branch.outputs.head_ref }}'
+          _input-text: '${{ github.event.repository.name }}-${{ github.event.pull_request.head.ref }}'
           /: x
           _: x
       - name: Delete bucket
