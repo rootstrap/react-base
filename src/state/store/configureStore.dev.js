@@ -1,11 +1,11 @@
 import { createLogger } from 'redux-logger';
-import { persistStore } from 'redux-persist';
+import { persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import _ from 'lodash';
 import { configureStore } from '@reduxjs/toolkit';
 
 import reducer from 'state/reducers';
 
-export default () => {
+export default initialState => {
   const logger = createLogger({
     collapsed: true,
     predicate: (getState, { type }) => !_.startsWith(type, '@@router')
@@ -13,8 +13,14 @@ export default () => {
 
   const store = configureStore({
     reducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
-    enhancers: window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    preloadedState: initialState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        }
+      }).concat(logger),
+    devTools: true
   });
 
   if (module.hot) {

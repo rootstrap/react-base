@@ -31,3 +31,7 @@ export const signUp = createAsyncThunk('user/signup', async user => {
 });
 
 export const updateSession = createAction('session/update');
+
+export const { fulfilled: loginFulfilled, rejected: loginRejected } = login;
+export const { fulfilled: signUpFulfilled } = signUp;
+export const { fulfilled: logoutFulfilled } = logout;

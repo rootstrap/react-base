@@ -3,8 +3,11 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import reducer from 'state/reducers';
 
-export default (isServerSide = false) => {
-  const store = configureStore({ reducer });
+export default (initialState, isServerSide = false) => {
+  const store = configureStore({
+    reducer,
+    preloadedState: initialState
+  });
 
   if (isServerSide) {
     return { store };

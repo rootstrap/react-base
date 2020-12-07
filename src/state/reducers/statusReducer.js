@@ -1,38 +1,34 @@
-import imm from 'immer';
-import { NOT_STARTED, FULFILLED, REJECTED, PENDING } from 'constants/actionStatusConstants';
+import { createReducer } from '@reduxjs/toolkit';
 
-const handleAction = (state, action) => {
-  const { type, error } = action;
+import { FULFILLED, REJECTED, PENDING } from 'constants/actionStatusConstants';
 
-  const matchesStart = /(.*)\/pending/.exec(type);
-  const matchesError = /(.*)\/rejected/.exec(type);
-  const matchesSuccess = /(.*)\/fulfilled/.exec(type);
-  const matchesReset = /(.*)\/reset/.exec(type);
+const DELIMITER = '/';
 
-  let status = NOT_STARTED;
-  let key = null;
-
-  if (matchesStart) {
-    const [, requestName] = matchesStart;
-    key = requestName;
-    status = PENDING;
-  } else if (matchesReset) {
-    const [, requestName] = matchesReset;
-    key = requestName;
-    status = NOT_STARTED;
-  } else if (matchesError) {
-    const [, requestName] = matchesError;
-    key = requestName;
-    status = REJECTED;
-  } else if (matchesSuccess) {
-    const [, requestName] = matchesSuccess;
-    key = requestName;
-    status = FULFILLED;
-  }
-
-  if (key) state[key] = { status, error: matchesError ? error?.message : undefined };
-
-  return state;
+const getActionKey = type => {
+  type = type.split(DELIMITER);
+  type.pop();
+  return type.join(DELIMITER);
 };
 
-export default (state = {}, action) => imm(state, draft => handleAction(draft, action));
+export default createReducer({}, builder => {
+  builder
+    .addMatcher(
+      ({ type }) => type.endsWith(`/${REJECTED}`),
+      (state, { type, error }) => {
+        state[getActionKey(type)] = { status: REJECTED, error: error?.message };
+      }
+    )
+    .addMatcher(
+      ({ type }) => type.endsWith(`/${FULFILLED}`),
+      (state, { type }) => {
+        state[getActionKey(type)] = { status: FULFILLED };
+      }
+    )
+    .addMatcher(
+      ({ type }) => type.endsWith(`/${PENDING}`),
+      (state, { type }) => {
+        state[getActionKey(type)] = { status: PENDING };
+      }
+    )
+    .addDefaultCase(() => {});
+});
