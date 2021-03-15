@@ -114,6 +114,8 @@
     "@cypress/code-coverage": "1.8.0",
     "@cypress/webpack-preprocessor": "4.0.3",
     "@svgr/webpack": "4.3.2",
+    "@testing-library/jest-dom": "5.11.9",
+    "@testing-library/react": "11.2.5",
     "assets-webpack-plugin": "3.9.5",
     "autoprefixer": "9.1.1",
     "aws-sdk": "2.292.0",
@@ -138,9 +140,11 @@
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-cypress": "2.7.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-jest-dom": "3.6.5",
+    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "^4.0.5",
+    "eslint-plugin-testing-library": "3.10.1",
     "express": "4.16.3",
     "faker": "4.1.0",
     "file-loader": "1.1.11",
@@ -149,10 +153,12 @@
     "identity-obj-proxy": "3.0.0",
     "istanbul-lib-coverage": "2.0.5",
     "jest": "24.9.0",
+    "jest-axe": "4.1.0",
     "json-loader": "0.5.7",
     "lint-staged": "9.0.2",
     "mime": "2.3.1",
     "mini-css-extract-plugin": "0.4.3",
+    "msw": "0.27.1",
     "nock": "9.6.1",
     "npm-run-all": "4.1.3",
     "nyc": "14.1.1",
@@ -177,23 +183,6 @@
     "webpack-hot-middleware": "2.22.3",
     "webpack-md5-hash": "0.0.6",
     "webpack-node-externals": "1.7.2"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy",
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ico)$": "<rootDir>/tools/fileMock.js"
-    },
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "modulePathIgnorePatterns": [
-      "<rootDir>/cypress"
-    ],
-    "coverageDirectory": "coverage_jest"
   },
   "keywords": [
     "react",
