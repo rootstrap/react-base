@@ -16,15 +16,15 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
-      <p>
+    <main>
+      <p data-testid="login-test-id">
         <FormattedMessage id="login.title" />
       </p>
       <LoginForm onSubmit={loginRequest} />
       <Link to={routes.signUp}>
         <FormattedMessage id="login.signup" />
       </Link>
-    </div>
+    </main>
   );
 };
 

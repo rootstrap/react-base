@@ -12,12 +12,12 @@ const Input = ({ label, name, value, onChange, errors, active, touched, ...props
   }, []);
 
   return (
-    <div>
+    <>
       {label && <label htmlFor={name}>{label}</label>}
       <div>
-        <input name={name} value={value} onChange={onChange} {...props} />
+        <input name={name} id={name} value={value} onChange={onChange} {...props} />
         {touched && errors && (
-          <span>
+          <span role="alert">
             <FormattedMessage
               id={parseInputErrors(errors)}
               defaultMessage={parseInputErrors(errors)}
@@ -25,7 +25,7 @@ const Input = ({ label, name, value, onChange, errors, active, touched, ...props
           </span>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
