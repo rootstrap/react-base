@@ -23,7 +23,6 @@ describe('Testing Login page submit', () => {
   test('Testing the presence of fields', () => {
     screen.getByText(/login/i);
     screen.getByLabelText(/email/i);
-    screen.getByTestId(/login-test-id/i);
     screen.getByRole('button', { name: /submit/i });
   });
 

@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   return (
     <main>
-      <p data-testid="login-test-id">
+      <p>
         <FormattedMessage id="login.title" />
       </p>
       <LoginForm onSubmit={loginRequest} />
