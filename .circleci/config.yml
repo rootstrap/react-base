@@ -19,8 +19,8 @@ jobs:
           command: ENV=cypress yarn start
           background: true
       - run:
-          name: Run tests
-          command: yarn test:ci
+          name: Run Cypress tests
+          command: yarn cypress:ci
       - run:
           name: Run Jest tests
           command: yarn jest

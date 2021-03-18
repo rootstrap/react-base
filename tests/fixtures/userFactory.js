@@ -20,7 +20,8 @@ const userBuilder = build('User', {
       smallThumb: {
         url: fake(f => f.internet.url)
       }
-    }
+    },
+    provider: 'email'
   }
 });
 

@@ -5,13 +5,13 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 
 import App from 'components/App';
 
-import { userFactory } from './factories';
-import { render } from './utils';
+import userFactory from 'fixtures/userFactory';
+import { render } from 'rtl/utils';
 
-describe('Testing examples with React testing library and other tools', () => {
+describe('Testing Login page submit', () => {
   const user = userFactory();
   let wrapper;
-  // We have to use MemoryRouter to indicate the history to react route
+
   beforeEach(() => {
     wrapper = render(
       <MemoryRouter initialEntries={['/login']}>
@@ -20,14 +20,14 @@ describe('Testing examples with React testing library and other tools', () => {
     );
   });
 
-  test('Testing Basics', () => {
+  test('Testing the presence of fields', () => {
     screen.getByText(/login/i);
     screen.getByLabelText(/email/i);
     screen.getByTestId(/login-test-id/i);
     screen.getByRole('button', { name: /submit/i });
   });
 
-  test('Testing login submit', async () => {
+  test('Testing Login submit', async () => {
     const emailField = screen.getByLabelText(/email/i);
     const passwordField = screen.getByLabelText(/password/i);
     const onSubmitLogin = screen.getByRole('button', { name: /submit/i });

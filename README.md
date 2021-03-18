@@ -11,7 +11,7 @@
 1. **Run the app**. `yarn start` or `npm start`
 2. **Build the app**. `yarn build` or `npm run build`
 3. **Lint the app**. `yarn lint` or `npm run lint`
-4. **Test the app**. `yarn test` or `npm run test`, for UI option `yarn test:open` or `npm run test:open`,
+4. **Test the app**. `yarn test` or `npm run test`, for Cypress option `yarn cypress:open` or `npm run cypress:open`,
 5. **Run the app with SSR**. `yarn ssr` or `npm run ssr`
 
 ## Getting Started
@@ -79,9 +79,11 @@ The server is prepared to fetch data directly from the backend before rendering 
 3. **Deploy your branch to Heroku**
 
 ## Preview links on PR's
+
 Github action which implements a preview link generator
 
 ### Setup
+
 Set `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `API_URL_PREVIEW` on the secrets settings page of the repository
 
 ## Technologies

@@ -1,5 +1,5 @@
 // / <reference types="Cypress" />
-import { logoutStub } from 'stubs/sessionStubs';
+import { logoutStub } from 'cypress/stubs/sessionStubs';
 
 describe('Home Page', () => {
   beforeEach(() => {

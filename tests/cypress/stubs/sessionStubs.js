@@ -1,11 +1,11 @@
-import user from 'fixtures/fakeUser';
 import {
   POST,
   DELETE,
   SUCCESS_CODE,
   UNAUTHORIZED_CODE,
   UNPROCESSABLE_ENTITY_CODE
-} from 'cypressConstants';
+} from 'cypress/support/constants';
+import userBuilder from 'fixtures/userFactory';
 
 // STUBS
 
@@ -16,7 +16,7 @@ export const loginStub = customUser => ({
   cases: {
     success: {
       status: SUCCESS_CODE,
-      response: { user: customUser || user() }
+      response: { user: customUser || userBuilder() }
     },
     fail: {
       status: UNAUTHORIZED_CODE,
@@ -33,7 +33,7 @@ export const signUpStub = customUser => ({
   cases: {
     success: {
       status: SUCCESS_CODE,
-      response: { user: customUser || user({ complete: false }) }
+      response: { user: customUser || userBuilder({ complete: false }) }
     },
     fail: {
       status: UNPROCESSABLE_ENTITY_CODE,

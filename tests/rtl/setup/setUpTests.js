@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import 'jest-axe/extend-expect';
-import { server } from '../services/mockServer';
+
+import { server } from 'rtl/mockServices/mockServer';
 
 // MSW Server config
 beforeAll(() => server.listen());

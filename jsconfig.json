@@ -7,18 +7,17 @@
       "components/*": ["src/components/*"],
       "middleware/*": ["src/middleware/*"],
       "constants/*": ["src/constants/*"],
-      "cypressConstants": ["../cypress/support/constants"],
-      "fixtures": ["../cypress/fixtures"],
       "hooks/*": ["src/hooks/*"],
       "locales/*": ["src/locales/*"],
       "pages/*": ["src/pages/*"],
       "state/*": ["src/state/*"],
-      "reusableTests": ["../cypress/support/reusableTests"],
       "selectors/*": ["src/selectors/*"],
       "services/*": ["src/services/*"],
-      "stubs": ["../cypress/stubs"],
       "styles/*": ["src/styles/*"],
       "utils/*": ["src/utils/*"],
+      "fixtures/*": ["tests/fixtures/*"],
+      "cypress/*": ["tests/cypress/*"],
+      "rtl/*": ["tests/rtl/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -50,7 +50,7 @@ dist
 server/build
 
 # Cypress
-cypress.env.json
-cypress/screenshots
-cypress/snapshots
-cypress/videos
+tests/cypress.env.json
+tests/cypress/screenshots
+tests/cypress/snapshots
+tests/cypress/videos

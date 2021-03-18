@@ -1,8 +1,8 @@
 import faker from 'faker';
-import { signUpStub } from 'stubs/sessionStubs';
-import { FAIL_CASE, inputTypes, validationTypes } from 'cypressConstants';
-import { testFields } from 'reusableTests';
 import routes from 'constants/routesPaths';
+import { signUpStub } from 'cypress/stubs/sessionStubs';
+import { testFields } from 'cypress/support/reusableTests';
+import { FAIL_CASE, inputTypes, validationTypes } from 'cypress/support/constants';
 
 const { INPUT } = inputTypes;
 const { PRESENCE, EMAIL, EQUALITY } = validationTypes;

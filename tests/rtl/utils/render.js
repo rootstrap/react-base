@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { render as rtlRender } from '@testing-library/react';
+
 import locales from 'locales';
 import httpClient from 'httpClient';
 import applyDefaultInterceptors from 'httpClient/applyDefaultInterceptors';
