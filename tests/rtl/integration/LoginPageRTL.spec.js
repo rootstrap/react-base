@@ -32,18 +32,16 @@ describe('Testing Login page submit', () => {
     const onSubmitLogin = screen.getByRole('button', { name: /submit/i });
 
     fireEvent.click(onSubmitLogin);
-    const alerts = screen.getAllByRole('alert');
-    expect(alerts).toHaveLength(2);
+    expect(screen.getByText(/You must enter an email to continue/)).toBeInTheDocument();
+    expect(screen.getByText(/You must enter a password to continue/)).toBeInTheDocument();
 
     fireEvent.change(emailField, { target: { value: user.email } });
     fireEvent.change(passwordField, { target: { value: user.password } });
     fireEvent.click(onSubmitLogin);
     screen.getByRole('status');
 
-    await waitFor(() =>
-      expect(screen.getByLabelText(/greeting/i)).toHaveTextContent(
-        `Welcome to React Redux Base ${user.email}`
-      )
+    expect(await screen.findByLabelText(/greeting/i)).toHaveTextContent(
+      `Welcome to React Redux Base ${user.email}`
     );
   });
 

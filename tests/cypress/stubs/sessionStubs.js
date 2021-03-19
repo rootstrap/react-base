@@ -16,7 +16,7 @@ export const loginStub = customUser => ({
   cases: {
     success: {
       status: SUCCESS_CODE,
-      response: { user: customUser || userBuilder() }
+      response: { user: customUser != null ? customUser : userBuilder() }
     },
     fail: {
       status: UNAUTHORIZED_CODE,
@@ -33,7 +33,7 @@ export const signUpStub = customUser => ({
   cases: {
     success: {
       status: SUCCESS_CODE,
-      response: { user: customUser || userBuilder({ complete: false }) }
+      response: { user: customUser != null ? customUser : userBuilder({ complete: false }) }
     },
     fail: {
       status: UNPROCESSABLE_ENTITY_CODE,
