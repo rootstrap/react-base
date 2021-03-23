@@ -2,10 +2,11 @@
 // [https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/logging-in__html-web-forms/cypress/integration/logging-in-html-web-form-spec.js]
 
 import faker from 'faker';
-import { loginStub } from 'stubs/sessionStubs';
-import { FAIL_CASE, inputTypes, validationTypes } from 'cypressConstants';
-import { testFields } from 'reusableTests';
+
 import routes from 'constants/routesPaths';
+import { testFields } from 'cypress/support/reusableTests';
+import { FAIL_CASE, inputTypes, validationTypes } from 'cypress/support/constants';
+import { loginStub } from 'cypress/stubs/sessionStubs';
 
 const { INPUT } = inputTypes;
 const { PRESENCE, EMAIL } = validationTypes;

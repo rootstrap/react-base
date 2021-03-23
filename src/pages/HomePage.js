@@ -8,14 +8,14 @@ const HomePage = () => {
   const { user } = useSession();
 
   return (
-    <div>
+    <main>
       {user && user.email && (
-        <p>
+        <p aria-label="greeting">
           <FormattedMessage id="home.welcome" values={user} />
         </p>
       )}
       <LogoutButton />
-    </div>
+    </main>
   );
 };
 

@@ -19,7 +19,7 @@ module.exports = (on, config) => {
   const options = {
     // send in the options from your webpack.config.js, so it works the same
     // as your app's code
-    webpackOptions: require('../../webpack/webpack.config.cypress'),
+    webpackOptions: require('../../../webpack/webpack.config.cypress'),
     watchOptions: {}
   };
   on('file:preprocessor', webpack(options));

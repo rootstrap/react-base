@@ -5,7 +5,10 @@
     "plugin:import/warnings",
     "airbnb",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react",
+    "plugin:jsx-a11y/recommended"
   ],
   "plugins": [
     "react",
@@ -113,7 +116,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["src"]
+        "paths": ["src", "tests"]
       }
     }
   }

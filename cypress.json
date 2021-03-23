@@ -1,6 +1,13 @@
 {
   "baseUrl": "http://localhost:8000",
   "indexUrl": "/",
+  "fixturesFolder": "tests/fixtures",
+  "downloadsFolder": "tests/cypress/downloads",
+  "integrationFolder": "tests/cypress/integration",
+  "pluginsFile": "tests/cypress/plugins/index.js",
+  "screenshotsFolder": "tests/cypress/screenshots",
+  "supportFile": "tests/cypress/support/index.js",
+  "videosFolder": "tests/cypress/videos",
   "chromeWebSecurity": false,
   "videoUploadOnPasses": false,
   "video": true,

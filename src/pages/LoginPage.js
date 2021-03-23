@@ -16,7 +16,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
+    <main>
       <p>
         <FormattedMessage id="login.title" />
       </p>
@@ -24,7 +24,7 @@ const LoginPage = () => {
       <Link to={routes.signUp}>
         <FormattedMessage id="login.signup" />
       </Link>
-    </div>
+    </main>
   );
 };
 

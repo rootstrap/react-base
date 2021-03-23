@@ -11,11 +11,10 @@
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
 import headers from 'fixtures/headers';
-import user from 'fixtures/fakeUser';
-import session from 'fixtures/headers';
+import userBuilder from 'fixtures/userFactory';
 import realUser from 'fixtures/realUser';
-import { SUCCESS_CASE } from 'cypressConstants';
 import { login, updateSession } from 'state/actions/userActions';
+import { SUCCESS_CASE } from './constants';
 
 // Cypress image snapshot
 addMatchImageSnapshotCommand({
@@ -50,8 +49,8 @@ Cypress.Commands.add('loginUser', () => {
   cy.window()
     .its('store')
     .then(store => {
-      store.dispatch(updateSession(session()));
-      store.dispatch(login.fulfilled(user()));
+      store.dispatch(updateSession(headers()));
+      store.dispatch(login.fulfilled(userBuilder()));
     });
 });
 
