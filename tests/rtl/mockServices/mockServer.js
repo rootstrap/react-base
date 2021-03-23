@@ -3,8 +3,8 @@ import { setupServer } from 'msw/node';
 
 import userMockServices from 'rtl/mockServices/userMockServices';
 
-const serverHandlers = [...userMockServices];
+const handlers = [...userMockServices];
 
-const server = setupServer(...serverHandlers);
+const server = setupServer(...handlers);
 
 export { server, rest };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { render as rtlRender } from '@testing-library/react';
+import { node } from 'prop-types';
 
 import locales from 'locales';
 import httpClient from 'httpClient';
@@ -32,6 +33,10 @@ export default (
         <Provider store={store}>{children}</Provider>
       </IntlProvider>
     );
+  };
+
+  Wrapper.propTypes = {
+    children: node.isRequired
   };
 
   return rtlRender(ui, { wrapper: Wrapper, ...options });

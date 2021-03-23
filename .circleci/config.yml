@@ -21,7 +21,7 @@ jobs:
             - ~/.cache/yarn
       - run:
           name: Run server
-          command: ENV=cypress yarn start
+          command: ENV=test yarn start
           background: true
       - run:
           name: Run Cypress tests

@@ -1,7 +1,8 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { axe } from 'jest-axe';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import App from 'components/App';
 
@@ -31,13 +32,13 @@ describe('Testing Login page submit', () => {
     const passwordField = screen.getByLabelText(/password/i);
     const onSubmitLogin = screen.getByRole('button', { name: /submit/i });
 
-    fireEvent.click(onSubmitLogin);
+    userEvent.click(onSubmitLogin);
     expect(screen.getByText(/You must enter an email to continue/)).toBeInTheDocument();
     expect(screen.getByText(/You must enter a password to continue/)).toBeInTheDocument();
 
-    fireEvent.change(emailField, { target: { value: user.email } });
-    fireEvent.change(passwordField, { target: { value: user.password } });
-    fireEvent.click(onSubmitLogin);
+    userEvent.type(emailField, user.email);
+    userEvent.type(passwordField, user.password);
+    userEvent.click(onSubmitLogin);
     screen.getByRole('status');
 
     expect(await screen.findByLabelText(/greeting/i)).toHaveTextContent(
