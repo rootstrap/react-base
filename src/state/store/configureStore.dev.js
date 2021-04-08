@@ -1,6 +1,6 @@
 import { createLogger } from 'redux-logger';
 import { persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import _ from 'lodash';
+import startsWith from 'lodash/startsWith';
 import { configureStore } from '@reduxjs/toolkit';
 
 import reducer from 'state/reducers';
@@ -8,7 +8,7 @@ import reducer from 'state/reducers';
 export default initialState => {
   const logger = createLogger({
     collapsed: true,
-    predicate: (getState, { type }) => !_.startsWith(type, '@@router')
+    predicate: (getState, { type }) => !startsWith(type, '@@router')
   });
 
   const store = configureStore({
