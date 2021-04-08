@@ -7,6 +7,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import CompressionPlugin from 'compression-webpack-plugin';
 import dotenv from 'dotenv';
+import TerserPlugin from 'terser-webpack-plugin';
 
 import resolve from './shared/resolve';
 
@@ -32,7 +33,13 @@ export default {
     chunkFilename: '[name]-[chunkhash].js'
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})]
+    minimize: true,
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({}),
+      new TerserPlugin({
+        sourceMap: true,
+      })
+    ]
   },
   plugins: [
     // Hash the files using MD5 so that their names change when the content changes.
