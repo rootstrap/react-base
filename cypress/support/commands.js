@@ -24,6 +24,7 @@ addMatchImageSnapshotCommand({
 });
 
 Cypress.on('window:before:load', win => {
+  Object.defineProperty(win.navigator, 'language', { value: 'en-US' });
   delete win.fetch;
 });
 
