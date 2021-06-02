@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react';
-import { isEmpty, pickBy, mapValues } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import pickBy from 'lodash/pickBy';
+import mapValues from 'lodash/mapValues';
 
 const useForm = (
   {
