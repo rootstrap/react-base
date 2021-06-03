@@ -13,7 +13,7 @@ import locales from 'locales';
 import configureStore from 'state/store/configureStore.prod';
 import routesPaths from 'constants/routesPaths';
 import { applyQueryParams } from 'utils/helpers';
-import App from './_app';
+import App from 'components/App';
 import routes from '../src/routes';
 import Doc from './_document';
 import { getLanguageFromHeader } from './helpers';
@@ -58,7 +58,7 @@ server
             <IntlProvider locale={userLocale} messages={messages} defaultLocale="en">
               <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
-                  <App routes={routes} />
+                  <App isSSR />
                 </StaticRouter>
               </Provider>
             </IntlProvider>
